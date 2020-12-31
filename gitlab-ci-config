@@ -12,7 +12,7 @@ neednewtag:
     - git fetch origin
     - git pull origin master
     - git fetch --tags
-    - git remote set-url origin https://[yourname]:[yourtoken]@gitlab.weibo.cn/**/hole.git
+    - git remote set-url origin https://[yourname]:[yourtoken]@gitlab.wb*.cn/**/projectName.git
     # - git config --local http.postBuffer 524288000
     - git tag -l -n
     # - firstTag=`git rev-list --tags --max-count=1`

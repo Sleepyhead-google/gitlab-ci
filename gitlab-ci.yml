@@ -1,0 +1,26 @@
+stages:
+  - deploy
+  - neednewtag
+
+# 必须更新版本号,否则无法构建成功
+neednewtag:
+  stage: neednewtag
+  only:
+    - master
+  script:
+    - echo "neednewtag 已有tag分支，需更改新版本再创建，否则失败"
+    - git fetch origin
+    - git pull origin master
+    - git fetch --tags
+    - git remote set-url origin https://[yourname]:[yourtoken]@gitlab.weibo.cn/**/hole.git
+    # - git config --local http.postBuffer 524288000
+    - git tag -l -n
+    # - firstTag=`git rev-list --tags --max-count=1`
+    # - LatestTag=$(git describe --tags ${firstTag:=0})
+    - getTag=$(grep -n 'version' utils/config.js | awk '{print $3}' | tr -d \"\,)
+    # - echo -e "新旧tag名对比:${LatestTag} -- ${getTag}"
+    - devTagName="dev_$getTag"
+    - git tag ${devTagName}
+    - git push origin ${devTagName}
+    - echo -e "新增的版本号...... ${devTagName}"
+
